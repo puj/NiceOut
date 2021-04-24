@@ -1,7 +1,24 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { View, Text } from 'react-native';
 
-console.log('AJSDLFKJASLDJFL');
+import Constants from 'expo-constants';
+const API_KEY = Constants.manifest.extra.API_KEY;
+
 export const Home = ({ route }) => {
-  return <Text>Hi!</Text>;
+  return (
+    <View>
+      <Text>API:{API_KEY}</Text>
+      <Text>API:{API_KEY}</Text>
+      <Text>API:{API_KEY}</Text>
+      <Text>API:{API_KEY}</Text>
+      <Text>API:{API_KEY}</Text>
+      <Text>API:{API_KEY}</Text>
+      <Text>API:{API_KEY}</Text>
+      <Text>API:{API_KEY}</Text>
+      <Text>API:{API_KEY}</Text>
+      <Text>API:{API_KEY}</Text>
+      <Text>API:{API_KEY}</Text>
+      <Text>API:{API_KEY}</Text>
+    </View>
+  );
 };
