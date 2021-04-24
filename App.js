@@ -1,7 +1,9 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import Constants from 'expo-constants';
+const API_KEY = Constants.manifest.extra.API_KEY;
 
-const App = ({ API_KEY }) => {
+const App = () => {
   console.log('asDF:LASDJFLKASDF');
   return (
     <View>
