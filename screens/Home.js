@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { CurrentWeather } from '../components/CurrentWeather';
 import { LastFetched } from '../components/LastFetched';
 import { DailyForecast } from '../components/DailyForecast';
 import { HourlyForecast } from '../components/HourlyForecast';
-import { weather, loadWeatherData } from '../reducers/weather';
+import { loadWeatherData } from '../reducers/weather';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
@@ -98,7 +98,7 @@ export const Home = ({}) => {
         })}
       </HourlyForecastContainer>
       <DailyForecastContainer>
-        {dailyForecasts.map((dailyForecast) => {
+        {dailyForecasts.slice(1).map((dailyForecast) => {
           return (
             <DailyForecast
               key={dailyForecast.dt}
