@@ -12,5 +12,8 @@
   "assetBundlePatterns": ["**/*"],
   "ios": {
     "supportsTablet": true
+  },
+  "android": {
+    "package": "tv.marslife.niceout"
   }
 }

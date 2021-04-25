@@ -44,8 +44,6 @@ export const HourlyForecast = ({ prev, next, forecast, low, high }) => {
     }
     setChunkHeight(height);
     setChunkWidth(width);
-    console.log(width);
-    console.log(height);
   };
 
   const prevTemp = forecast.temp;

@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { CurrentWeather } from '../components/CurrentWeather';
-import { LastUpdated } from '../components/LastUpdated';
+import { LastFetched } from '../components/LastFetched';
 import { DailyForecast } from '../components/DailyForecast';
 import { HourlyForecast } from '../components/HourlyForecast';
-
-import { View, Platform, Text } from 'react-native';
-import {
-  retrieveWeatherData,
-  retrieveWeatherLastUpdated,
-  fetchWeatherTask,
-} from '../utils/ScheduledTaskManager';
+import { weather, loadWeatherData } from '../reducers/weather';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
 
@@ -58,31 +53,15 @@ const HourlyForecastContainer = styled.View`
   border-right-width: 0;
 `;
 
-export const Home = ({ route }) => {
-  const [weatherData, setWeatherData] = useState({});
-  const [lastUpdated, setLastUpdated] = useState(null);
-  // if (Platform.OS !== 'web') {
+export const Home = ({}) => {
+  const dispatch = useDispatch();
+  const weatherData = useSelector((store) => store.weather.weatherData);
+  const lastFetched = new Date(
+    useSelector((store) => store.weather.lastFetched)
+  );
+
   useEffect(() => {
-    const restoreWeatherDataState = async () => {
-      const restoredLastUpdated = await retrieveWeatherLastUpdated();
-      const restoredWeatherData = await retrieveWeatherData();
-
-      const timeSinceLastUpdate =
-        new Date().getTime() - restoredLastUpdated.getTime();
-      const timeElapsed = timeSinceLastUpdate > 60 * 60 * 30;
-
-      const shouldRunAgain =
-        !restoredLastUpdated || !restoredWeatherData || timeElapsed;
-
-      if (shouldRunAgain) {
-        await fetchWeatherTask();
-        await restoreWeatherDataState();
-      }
-
-      setLastUpdated(new Date(restoredLastUpdated));
-      setWeatherData(restoredWeatherData);
-    };
-    restoreWeatherDataState();
+    dispatch(loadWeatherData());
   }, []);
 
   if (!weatherData || !weatherData.daily || !weatherData.hourly) {
@@ -102,7 +81,7 @@ export const Home = ({ route }) => {
     <HomeContainer>
       <CurrentContainer>
         <CurrentWeather current={weatherData.current}></CurrentWeather>
-        <LastUpdated lastUpdated={lastUpdated}></LastUpdated>
+        <LastFetched lastFetched={lastFetched}></LastFetched>
       </CurrentContainer>
       <HourlyForecastContainer>
         {hourlyForecasts.map((hourlyForecast, index) => {
