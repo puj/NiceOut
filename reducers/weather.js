@@ -38,7 +38,7 @@ export const loadWeatherData = () => {
 
     const now = new Date().getTime();
     const timeSinceLastUpdate = now - lastFetched;
-    const timeElapsed = timeSinceLastUpdate > 1000 * 60 * 60 * 30;
+    const timeElapsed = timeSinceLastUpdate > 1000 * 60 * 30;
 
     const shouldRunAgain = !lastFetched || !weatherData || timeElapsed;
 
