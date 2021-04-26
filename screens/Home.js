@@ -101,7 +101,7 @@ export const Home = ({}) => {
       refreshControl={
         <RefreshControl
           refreshing={refreshing}
-          onRefresh={() => loadWeatherData(true)}
+          onRefresh={() => dispatch(loadWeatherData(true))}
         />
       }
     >
