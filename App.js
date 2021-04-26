@@ -8,6 +8,15 @@ import { Platform } from 'react-native';
 import { Provider } from 'react-redux';
 import { configureStore, combineReducers, createStore } from '@reduxjs/toolkit';
 import { weather } from './reducers/weather.js';
+// import {
+//   useFonts,
+//   OriginalSurfer_400Regular,
+// } from '@expo-google-fonts/original-surfer';
+import {
+  useFonts,
+  RobotoCondensed_700Bold,
+} from '@expo-google-fonts/roboto-condensed';
+import { WorkSans_500Medium } from '@expo-google-fonts/work-sans';
 
 const reducer = combineReducers({ weather: weather.reducer });
 const store = configureStore({ reducer });
@@ -20,6 +29,12 @@ if (Platform.OS !== 'web') {
 }
 
 const App = () => {
+  let [fontsLoaded] = useFonts({
+    // OriginalSurfer_400Regular,
+    WorkSans_500Medium,
+    RobotoCondensed_700Bold,
+  });
+
   return (
     <Provider store={store}>
       <NavigationContainer>

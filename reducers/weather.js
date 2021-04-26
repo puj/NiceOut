@@ -29,7 +29,7 @@ export const weather = createSlice({
   },
 });
 
-export const loadWeatherData = () => {
+export const loadWeatherData = (forceFetch = false) => {
   return async (dispatch) => {
     console.info('Loading Weather Data from Local Storage...');
     // Let's try loading from local storage first
@@ -42,7 +42,7 @@ export const loadWeatherData = () => {
 
     const shouldRunAgain = !lastFetched || !weatherData || timeElapsed;
 
-    if (!shouldRunAgain) {
+    if (!shouldRunAgain && !forceFetch) {
       // Update redux store and stop here
       dispatch(weather.actions.setWeatherData({ weatherData }));
       dispatch(weather.actions.setLastFetched({ lastFetched }));

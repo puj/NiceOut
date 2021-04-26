@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { formatTemperature } from '../utils/TemperatureUtils';
 import moment from 'moment';
+import { CustomTextComponent } from './CustomTextComponent';
+
 const CurrentWeatherContainer = styled.View`
   flex: 1;
   flex-direction: row;
@@ -10,21 +12,20 @@ const CurrentWeatherContainer = styled.View`
   justify-content: space-between;
   height: 100%;
 `;
-const CurrentDay = styled.Text`
+const CurrentDay = styled(CustomTextComponent)`
   flex: 1;
   align-self: center;
   color: #4f4f4f;
   font-size: 18px;
-  font-weight: bold;
 `;
 
-const CurrentTemperature = styled.Text`
+const CurrentTemperature = styled(CustomTextComponent)`
   flex: 1;
   align-self: center;
   color: #4f4f4f;
   font-size: 20px;
-  font-weight: bold;
 `;
+
 const CurrentWeatherIcon = styled.ImageBackground`
   flex: 1;
   align-self: center;

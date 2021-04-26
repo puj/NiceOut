@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import moment from 'moment';
 import { formatTemperature } from '../utils/TemperatureUtils';
+import { CustomTextComponent } from './CustomTextComponent';
+import { current } from 'immer';
 
 const DailyForecastContainer = styled.View`
   flex: 1;
@@ -10,7 +12,7 @@ const DailyForecastContainer = styled.View`
   justify-content: space-evenly;
   width: 100%;
 `;
-const DayName = styled.Text`
+const DayName = styled(CustomTextComponent)`
   flex: 1;
   color: #afafaf;
   font-size: 16px;
@@ -30,11 +32,11 @@ const TemperatureHolder = styled.View`
   align-items: flex-end;
 `;
 
-const Temperature = styled.Text`
+const Temperature = styled(CustomTextComponent)`
   align-self: center;
   font-size: 18px;
 `;
-const TemperatureLow = styled.Text`
+const TemperatureLow = styled(CustomTextComponent)`
   align-self: center;
   font-size: 14px;
   color: #afafaf;

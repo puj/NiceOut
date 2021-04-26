@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { CustomTextComponent } from './CustomTextComponent';
 
 const LastFetchedContainer = styled.View`
   flex: 1;
 `;
-const LastFetchedTime = styled.Text`
+const LastFetchedTime = styled(CustomTextComponent)`
   color: #afafaf;
   align-self: flex-end;
+  font-size: 12px;
 `;
 
 export const LastFetched = () => {

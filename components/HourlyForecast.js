@@ -4,6 +4,7 @@ import moment from 'moment';
 import { formatTemperatureWithoutUnits } from '../utils/TemperatureUtils';
 
 import Svg, { Polygon, Line } from 'react-native-svg';
+import { CustomTextComponent } from './CustomTextComponent';
 
 const HourlyForecastContainer = styled.View`
   flex: 1;
@@ -13,12 +14,12 @@ const HourlyForecastContainer = styled.View`
   width: 100%;
   height: 100%;
 `;
-const HourName = styled.Text`
+const HourName = styled(CustomTextComponent)`
   flex: 1;
   color: #afafaf;
   font-size: 16px;
 `;
-const Temperature = styled.Text`
+const Temperature = styled(CustomTextComponent)`
   align-self: center;
   flex: 1;
   font-size: 12px;
