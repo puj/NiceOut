@@ -56,9 +56,6 @@ const HourlyForecastContainer = styled.View`
 export const Home = ({}) => {
   const dispatch = useDispatch();
   const weatherData = useSelector((store) => store.weather.weatherData);
-  const lastFetched = new Date(
-    useSelector((store) => store.weather.lastFetched)
-  );
 
   useEffect(() => {
     dispatch(loadWeatherData());
@@ -81,7 +78,7 @@ export const Home = ({}) => {
     <HomeContainer>
       <CurrentContainer>
         <CurrentWeather current={weatherData.current}></CurrentWeather>
-        <LastFetched lastFetched={lastFetched}></LastFetched>
+        <LastFetched></LastFetched>
       </CurrentContainer>
       <HourlyForecastContainer>
         {hourlyForecasts.map((hourlyForecast, index) => {
