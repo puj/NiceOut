@@ -78,7 +78,8 @@ export const Home = ({}) => {
   console.log(weatherData.daily.map((day) => day.weather[0].main));
 
   const dailyForecasts = weatherData.daily;
-  const hourlyForecasts = weatherData.hourly.slice(0, 12);
+  const hourlyForecasts = weatherData.hourly;
+  // const hourlyForecasts = weatherData.hourly.slice(0, 12);
   const hourlyLow = Math.min(
     ...hourlyForecasts.map((forecast) => forecast.temp)
   );

@@ -27,17 +27,14 @@ const Temperature = styled(CustomTextComponent)`
   flex: 1;
   font-size: 12px;
 `;
-// const Graph = styled(Svg)`
 const Graph = styled.View`
   align-self: center;
-  /* background-color: #ff0000; */
   width: 100%;
   height: 100%;
   flex: 1;
 `;
 
 export const HourlyForecast = ({ prev, next, forecast, low, high }) => {
-  //   const prevTemp = prev ? prev.temp : forecast.temp;
   const [chunkWidth, setChunkWidth] = useState(0);
   const [chunkHeight, setChunkHeight] = useState(0);
   const measureChunk = (e) => {
@@ -52,7 +49,7 @@ export const HourlyForecast = ({ prev, next, forecast, low, high }) => {
 
   const prevTemp = forecast.temp;
   const nextTemp = next ? next.temp : forecast.temp;
-  //   console.log(low, high);
+
   const normalizedFrom = (prevTemp - low) / (high - low);
   const normalizedTo = (nextTemp - low) / (high - low);
 
@@ -93,7 +90,6 @@ export const HourlyForecast = ({ prev, next, forecast, low, high }) => {
             fill={`hsl(${
               180 - parseInt(180 * calculateNicenessFactor(forecast))
             },100%,80%)`}
-            // fill="#e6e8c2"
           />
         </Svg>
       </Graph>
