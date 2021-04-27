@@ -11,6 +11,8 @@ import { ScrollView, RefreshControl, StyleSheet } from 'react-native';
 
 import styled from 'styled-components/native';
 const HomeContainer = styled.View`
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -44,21 +46,22 @@ const DailyForecastContainer = styled.View`
   border-right-width: 0;
 `;
 
-const HourlyForecastContainer = styled.View`
+const HourlyForecastContainer = styled.ScrollView`
   flex: 1.5;
-  flex-direction: row;
-  align-items: center;
-  padding: 24px;
+  width: 100%;
   border: 1px solid #dfdfdf;
   border-top-width: 0;
   border-left-width: 0;
   border-right-width: 0;
+  margin: 24px;
 `;
 
 export const Home = ({}) => {
   const dispatch = useDispatch();
   const weatherData = useSelector((store) => store.weather.weatherData);
   const [refreshing, setRefreshing] = useState(false);
+  const [chunkWidth, setChunkWidth] = useState(0);
+  const [chunkHeight, setChunkHeight] = useState(0);
 
   // Try to load data from localstorage or network
   useEffect(() => {
@@ -73,9 +76,6 @@ export const Home = ({}) => {
   if (!weatherData || !weatherData.daily || !weatherData.hourly) {
     return <></>;
   }
-
-  console.log(weatherData.hourly.map((hour) => hour.weather[0].main));
-  console.log(weatherData.daily.map((day) => day.weather[0].main));
 
   const dailyForecasts = weatherData.daily;
   const hourlyForecasts = weatherData.hourly;
@@ -99,6 +99,22 @@ export const Home = ({}) => {
       justifyContent: 'center',
     },
   });
+
+  const measureChunk = (e) => {
+    if (chunkWidth !== 0) {
+      return;
+    }
+    const width = e.nativeEvent.layout.width;
+    const height = e.nativeEvent.layout.height;
+    const newChunkHeight = height;
+    console.log(width);
+    const newChunkWidth = width / 8;
+
+    console.log(newChunkWidth);
+    setChunkWidth(newChunkWidth);
+    setChunkHeight(newChunkHeight);
+  };
+
   return (
     <ScrollView
       contentContainerStyle={styles.scrollView}
@@ -114,7 +130,14 @@ export const Home = ({}) => {
           <CurrentWeather current={weatherData.current}></CurrentWeather>
           <LastFetched></LastFetched>
         </CurrentContainer>
-        <HourlyForecastContainer>
+        <HourlyForecastContainer
+          horizontal={true}
+          contentContainerStyle={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+          onLayout={(event) => measureChunk(event)}
+        >
           {hourlyForecasts.map((hourlyForecast, index) => {
             return (
               <HourlyForecast
@@ -124,6 +147,8 @@ export const Home = ({}) => {
                 next={hourlyForecasts[index + 1]}
                 low={hourlyLow}
                 high={hourlyHigh}
+                chunkWidth={chunkWidth}
+                chunkHeight={chunkHeight}
               ></HourlyForecast>
             );
           })}

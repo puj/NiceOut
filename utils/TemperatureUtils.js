@@ -82,7 +82,6 @@ export const calculateWeatherScore = (cloudiness, temp, hourOfDay) => {
     // Can increase by half of base
     const halfBaseScore = baseScore / 2;
     const clearBonus = clearSkiedness * halfBaseScore;
-    console.log('Clear +' + clearBonus);
     const weightedScore = baseScore + clearBonus;
     return weightedScore;
   }
@@ -93,6 +92,5 @@ export const calculateNicenessFactor = (weatherData) => {
   const cloudiness = weatherData.clouds / 100.0;
   const hour = moment(weatherData.dt * 1000).hour();
   const nicenessFactor = calculateWeatherScore(cloudiness, temp, hour);
-  console.log(nicenessFactor);
   return nicenessFactor;
 };

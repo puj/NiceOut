@@ -14,7 +14,7 @@ const HourlyForecastContainer = styled.View`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: ${(props) => `${props.chunkWidth}px`};
   height: 100%;
 `;
 const HourName = styled(CustomTextComponent)`
@@ -29,24 +29,19 @@ const Temperature = styled(CustomTextComponent)`
 `;
 const Graph = styled.View`
   align-self: center;
-  width: 100%;
-  height: 100%;
   flex: 1;
+  width: 100%;
 `;
 
-export const HourlyForecast = ({ prev, next, forecast, low, high }) => {
-  const [chunkWidth, setChunkWidth] = useState(0);
-  const [chunkHeight, setChunkHeight] = useState(0);
-  const measureChunk = (e) => {
-    const width = e.nativeEvent.layout.width;
-    const height = e.nativeEvent.layout.height;
-    if (chunkWidth === width) {
-      return;
-    }
-    setChunkHeight(height);
-    setChunkWidth(width);
-  };
-
+export const HourlyForecast = ({
+  prev,
+  next,
+  forecast,
+  low,
+  high,
+  chunkWidth,
+  chunkHeight,
+}) => {
   const prevTemp = forecast.temp;
   const nextTemp = next ? next.temp : forecast.temp;
 
@@ -60,14 +55,11 @@ export const HourlyForecast = ({ prev, next, forecast, low, high }) => {
     chunkHeight - graphPadding - (chunkHeight - graphPadding) * normalizedTo;
 
   return (
-    <HourlyForecastContainer>
+    <HourlyForecastContainer chunkWidth={chunkWidth}>
       <Temperature>{formatTemperatureWithoutUnits(forecast.temp)}</Temperature>
-      <Graph
-        height="100%"
-        width="100%"
-        onLayout={(event) => measureChunk(event)}
-      >
+      <Graph>
         <Svg
+          preserveAspectRatio="xMaxYMax slice"
           width="100%"
           height="100%"
           viewBox={`0 0 ${chunkWidth} ${chunkHeight}`}
