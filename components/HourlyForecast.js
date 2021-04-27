@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import moment from 'moment';
-import { formatTemperatureWithoutUnits } from '../utils/TemperatureUtils';
+import {
+  calculateNicenessFactor,
+  formatTemperatureWithoutUnits,
+} from '../utils/TemperatureUtils';
 
 import Svg, { Polygon, Line } from 'react-native-svg';
 import { CustomTextComponent } from './CustomTextComponent';
@@ -87,7 +90,10 @@ export const HourlyForecast = ({ prev, next, forecast, low, high }) => {
                 ${chunkWidth}, ${y2} 
               0 ${y1} 
             `}
-            fill="#e6e8c2"
+            fill={`hsl(${
+              180 - parseInt(180 * calculateNicenessFactor(forecast))
+            },100%,80%)`}
+            // fill="#e6e8c2"
           />
         </Svg>
       </Graph>

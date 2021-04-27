@@ -74,6 +74,9 @@ export const Home = ({}) => {
     return <></>;
   }
 
+  console.log(weatherData.hourly.map((hour) => hour.weather[0].main));
+  console.log(weatherData.daily.map((day) => day.weather[0].main));
+
   const dailyForecasts = weatherData.daily;
   const hourlyForecasts = weatherData.hourly.slice(0, 12);
   const hourlyLow = Math.min(
