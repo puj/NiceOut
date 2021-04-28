@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { CurrentWeather } from '../components/CurrentWeather';
 import { LastFetched } from '../components/LastFetched';
+import { CurrentWeatherHeader } from '../components/CurrentWeatherHeader';
 import { DailyForecast } from '../components/DailyForecast';
-import { loadWeatherData } from '../reducers/weather';
+import { loadWeatherData, weather } from '../reducers/weather';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHeaderHeight } from '@react-navigation/stack';
+
 import Constants from 'expo-constants';
 
-import { ScrollView, RefreshControl, StyleSheet } from 'react-native';
+import { ScrollView, RefreshControl, StyleSheet, View } from 'react-native';
 
 import styled from 'styled-components/native';
 import { HourlyForecastHorizontalScrollView } from '../components/HourlyForecastHorizontalScrollView';
@@ -18,19 +20,6 @@ const HomeContainer = styled.View`
   justify-content: flex-start;
   flex: 1;
   background-color: #d3d3d3;
-`;
-
-const CurrentContainer = styled.View`
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  align-items: center;
-  padding: 24px;
-  /* margin: 12px; */
-  border: 1px solid #dfdfdf;
-  border-top-width: 0;
-  border-left-width: 0;
-  border-right-width: 0;
 `;
 
 const DailyForecastContainer = styled.View`
@@ -46,7 +35,9 @@ const DailyForecastContainer = styled.View`
   border-right-width: 0;
 `;
 
-export const Home = ({}) => {
+export const Home = ({ navigation }) => {
+  const headerHeight = useHeaderHeight();
+  console.log(headerHeight);
   const dispatch = useDispatch();
   const weatherData = useSelector((store) => store.weather.weatherData);
   const [refreshing, setRefreshing] = useState(false);
@@ -83,33 +74,36 @@ export const Home = ({}) => {
   });
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.scrollView}
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={() => dispatch(loadWeatherData(true))}
-        />
-      }
-    >
-      <HomeContainer>
-        <CurrentContainer>
+    <View style={{ width: '100%', height: '100%' }}>
+      <CurrentWeatherHeader current={weatherData.current} />
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => dispatch(loadWeatherData(true))}
+          />
+        }
+      >
+        <HomeContainer>
+          {/* <CurrentContainer>
           <CurrentWeather current={weatherData.current}></CurrentWeather>
           <LastFetched></LastFetched>
-        </CurrentContainer>
+        </CurrentContainer> */}
 
-        <HourlyForecastHorizontalScrollView forecasts={hourlyForecasts} />
-        <DailyForecastContainer>
-          {dailyForecasts.slice(1).map((dailyForecast) => {
-            return (
-              <DailyForecast
-                key={dailyForecast.dt}
-                forecast={dailyForecast}
-              ></DailyForecast>
-            );
-          })}
-        </DailyForecastContainer>
-      </HomeContainer>
-    </ScrollView>
+          <HourlyForecastHorizontalScrollView forecasts={hourlyForecasts} />
+          <DailyForecastContainer>
+            {dailyForecasts.slice(1).map((dailyForecast) => {
+              return (
+                <DailyForecast
+                  key={dailyForecast.dt}
+                  forecast={dailyForecast}
+                ></DailyForecast>
+              );
+            })}
+          </DailyForecastContainer>
+        </HomeContainer>
+      </ScrollView>
+    </View>
   );
 };

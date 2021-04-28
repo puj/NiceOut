@@ -9,25 +9,29 @@ const CurrentWeatherContainer = styled.View`
   flex-direction: row;
   align-self: flex-start;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  width: 100%;
   height: 100%;
 `;
 const CurrentDay = styled(CustomTextComponent)`
   flex: 1;
   align-self: center;
+  text-align: center;
   color: #4f4f4f;
   font-size: 18px;
 `;
 
 const CurrentTemperature = styled(CustomTextComponent)`
   flex: 1;
+  text-align: center;
   align-self: center;
   color: #4f4f4f;
   font-size: 20px;
 `;
 
-const CurrentWeatherIcon = styled.ImageBackground`
+const CurrentWeatherIcon = styled.Image`
   flex: 1;
+  width: 100%;
   align-self: center;
   height: 100%;
 `;
