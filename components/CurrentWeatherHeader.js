@@ -2,11 +2,14 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { CurrentWeather } from '../components/CurrentWeather';
 import { CustomTextComponent } from '../components/CustomTextComponent';
+import { HeaderHeightContext, useHeaderHeight } from '@react-navigation/stack';
+import Constants from 'expo-constants';
+
 const HeaderContainer = styled.View`
+  position: relative;
   width: 100%;
-  height: 64px;
-  background-color: '#fff000';
-  padding: 12px;
+  top: ${(props) => `${Constants.statusBarHeight}px`};
+  height: ${(props) => `${props.headerHeight || 120}px`};
 `;
 
 const CurrentContainer = styled.View`
@@ -16,10 +19,6 @@ const CurrentContainer = styled.View`
   flex-direction: row;
   align-items: center;
   align-self: flex-end;
-  border: 1px solid #dfdfdf;
-  border-top-width: 0;
-  border-left-width: 0;
-  border-right-width: 0;
 `;
 
 const HeaderTitleContainer = styled.View`
@@ -38,9 +37,9 @@ const HeaderTitle = styled(CustomTextComponent)`
 `;
 
 export const CurrentWeatherHeader = ({ current }) => {
-  console.log(current);
+  const headerHeight = useHeaderHeight();
   return (
-    <HeaderContainer>
+    <HeaderContainer headerHeight={headerHeight}>
       <HeaderTitleContainer>
         <HeaderTitle>Nice Out</HeaderTitle>
       </HeaderTitleContainer>

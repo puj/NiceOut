@@ -13,7 +13,6 @@ import { useFonts, WorkSans_500Medium } from '@expo-google-fonts/work-sans';
 import { OriginalSurfer_400Regular } from '@expo-google-fonts/original-surfer';
 import { RobotoCondensed_700Bold } from '@expo-google-fonts/roboto-condensed';
 import AppLoading from 'expo-app-loading';
-import { CurrentWeather } from './components/CurrentWeather';
 import { CurrentWeatherHeader } from './components/CurrentWeatherHeader';
 
 const reducer = combineReducers({ weather: weather.reducer });
@@ -44,10 +43,9 @@ const App = () => {
           <Stack.Screen
             name="Nice Out"
             component={Home}
-            options={{
-              header: <CurrentWeatherHeader></CurrentWeatherHeader>,
-              headerShown: false,
-            }}
+            // options={{
+            //   headerShown: false,
+            // }}
           />
         </Stack.Navigator>
       </NavigationContainer>

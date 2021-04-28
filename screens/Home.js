@@ -4,7 +4,6 @@ import { CurrentWeatherHeader } from '../components/CurrentWeatherHeader';
 import { DailyForecast } from '../components/DailyForecast';
 import { loadWeatherData, weather } from '../reducers/weather';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHeaderHeight } from '@react-navigation/stack';
 
 import Constants from 'expo-constants';
 
@@ -12,6 +11,14 @@ import { ScrollView, RefreshControl, StyleSheet, View } from 'react-native';
 
 import styled from 'styled-components/native';
 import { HourlyForecastHorizontalScrollView } from '../components/HourlyForecastHorizontalScrollView';
+
+const MainContainer = styled.SafeAreaView`
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+`;
+
 const HomeContainer = styled.View`
   height: 100%;
   width: 100%;
@@ -35,9 +42,11 @@ const DailyForecastContainer = styled.View`
   border-right-width: 0;
 `;
 
+const RelativeLayoutScrollView = styled.ScrollView`
+  top: ${(props) => `${Constants.statusBarHeight}px`};
+`;
+
 export const Home = ({ navigation }) => {
-  const headerHeight = useHeaderHeight();
-  console.log(headerHeight);
   const dispatch = useDispatch();
   const weatherData = useSelector((store) => store.weather.weatherData);
   const [refreshing, setRefreshing] = useState(false);
@@ -45,6 +54,10 @@ export const Home = ({ navigation }) => {
   // Try to load data from localstorage or network
   useEffect(() => {
     dispatch(loadWeatherData());
+
+    navigation.setOptions({
+      header: () => false,
+    });
   }, []);
 
   // Cancel animation when data is received
@@ -74,9 +87,9 @@ export const Home = ({ navigation }) => {
   });
 
   return (
-    <View style={{ width: '100%', height: '100%' }}>
+    <MainContainer>
       <CurrentWeatherHeader current={weatherData.current} />
-      <ScrollView
+      <RelativeLayoutScrollView
         contentContainerStyle={styles.scrollView}
         refreshControl={
           <RefreshControl
@@ -86,11 +99,6 @@ export const Home = ({ navigation }) => {
         }
       >
         <HomeContainer>
-          {/* <CurrentContainer>
-          <CurrentWeather current={weatherData.current}></CurrentWeather>
-          <LastFetched></LastFetched>
-        </CurrentContainer> */}
-
           <HourlyForecastHorizontalScrollView forecasts={hourlyForecasts} />
           <DailyForecastContainer>
             {dailyForecasts.slice(1).map((dailyForecast) => {
@@ -103,7 +111,7 @@ export const Home = ({ navigation }) => {
             })}
           </DailyForecastContainer>
         </HomeContainer>
-      </ScrollView>
-    </View>
+      </RelativeLayoutScrollView>
+    </MainContainer>
   );
 };

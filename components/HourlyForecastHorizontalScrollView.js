@@ -25,7 +25,6 @@ export const HourlyForecastHorizontalScrollView = ({ forecasts }) => {
     const width = e.nativeEvent.layout.width;
     const height = e.nativeEvent.layout.height;
     const newChunkHeight = height;
-    console.log(width);
     const newChunkWidth = width / 8;
 
     console.log(newChunkWidth);

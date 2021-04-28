@@ -15,7 +15,7 @@ const HourlyForecastContainer = styled.View`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: ${(props) => `${props.chunkWidth}px`};
+  /* width: ${(props) => `${props.chunkWidth}px`}; */
   height: 100%;
 `;
 
@@ -34,7 +34,7 @@ const Temperature = styled(CustomTextComponent)`
   font-size: 12px;
 `;
 const Graph = styled.View`
-  width: 100%;
+  width: ${(props) => `${props.chunkWidth}px`};
   height: 100%;
 `;
 
@@ -67,7 +67,7 @@ export const HourlyForecast = ({
         </Temperature>
       </VerticalAlignCell>
       <VerticalAlignCell>
-        <Graph>
+        <Graph chunkWidth={chunkWidth}>
           <Svg
             preserveAspectRatio="none"
             width="100%"
