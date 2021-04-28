@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import moment from 'moment';
 import {
   calculateNicenessFactor,
+  formatTemperatureWithDegreeSymbol,
   formatTemperatureWithoutUnits,
 } from '../utils/TemperatureUtils';
 
@@ -17,20 +18,24 @@ const HourlyForecastContainer = styled.View`
   width: ${(props) => `${props.chunkWidth}px`};
   height: 100%;
 `;
-const HourName = styled(CustomTextComponent)`
+
+const VerticalAlignCell = styled.View`
   flex: 1;
+  align-self: center;
+  text-align: center;
+  justify-content: center;
+`;
+
+const HourName = styled(CustomTextComponent)`
   color: #afafaf;
   font-size: 16px;
 `;
 const Temperature = styled(CustomTextComponent)`
-  align-self: center;
-  flex: 1;
   font-size: 12px;
 `;
 const Graph = styled.View`
-  align-self: center;
-  flex: 1;
   width: 100%;
+  height: 100%;
 `;
 
 export const HourlyForecast = ({
@@ -56,36 +61,44 @@ export const HourlyForecast = ({
 
   return (
     <HourlyForecastContainer chunkWidth={chunkWidth}>
-      <Temperature>{formatTemperatureWithoutUnits(forecast.temp)}</Temperature>
-      <Graph>
-        <Svg
-          preserveAspectRatio="xMaxYMax slice"
-          width="100%"
-          height="100%"
-          viewBox={`0 0 ${chunkWidth} ${chunkHeight}`}
-        >
-          <Line
-            x1="0"
-            y1={`${y1}`}
-            x2={`${chunkWidth}`}
-            y2={`${y2}`}
-            stroke="#ccc259"
-            strokeWidth="1"
-          />
-          <Polygon
-            points={`
+      <VerticalAlignCell>
+        <Temperature>
+          {formatTemperatureWithDegreeSymbol(forecast.temp)}
+        </Temperature>
+      </VerticalAlignCell>
+      <VerticalAlignCell>
+        <Graph>
+          <Svg
+            preserveAspectRatio="none"
+            width="100%"
+            height="100%"
+            viewBox={`0 0 ${chunkWidth} ${chunkHeight}`}
+          >
+            <Line
+              x1="0"
+              y1={`${y1}`}
+              x2={`${chunkWidth}`}
+              y2={`${y2}`}
+              stroke="#ccc259"
+              strokeWidth="1"
+            />
+            <Polygon
+              points={`
                 ${0},${chunkHeight}
                 ${chunkWidth},${chunkHeight}
                 ${chunkWidth}, ${y2} 
               0 ${y1} 
             `}
-            fill={`hsl(${
-              180 - parseInt(180 * calculateNicenessFactor(forecast))
-            },100%,80%)`}
-          />
-        </Svg>
-      </Graph>
-      <HourName>{moment(forecast.dt * 1000).format('HH')}</HourName>
+              fill={`hsl(${
+                180 - parseInt(180 * calculateNicenessFactor(forecast))
+              },100%,80%)`}
+            />
+          </Svg>
+        </Graph>
+      </VerticalAlignCell>
+      <VerticalAlignCell>
+        <HourName>{moment(forecast.dt * 1000).format('HH')}</HourName>
+      </VerticalAlignCell>
     </HourlyForecastContainer>
   );
 };

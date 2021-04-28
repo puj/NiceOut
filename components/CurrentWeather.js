@@ -13,6 +13,7 @@ const CurrentWeatherContainer = styled.View`
   width: 100%;
   height: 100%;
 `;
+
 const CurrentDay = styled(CustomTextComponent)`
   flex: 1;
   align-self: center;
@@ -23,16 +24,16 @@ const CurrentDay = styled(CustomTextComponent)`
 
 const CurrentTemperature = styled(CustomTextComponent)`
   flex: 1;
-  text-align: center;
   align-self: center;
+  text-align: center;
   color: #4f4f4f;
   font-size: 20px;
 `;
 
 const CurrentWeatherIcon = styled.Image`
   flex: 1;
+
   width: 100%;
-  align-self: center;
   height: 100%;
 `;
 

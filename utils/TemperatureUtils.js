@@ -5,7 +5,11 @@ export const kelvinToCelsius = (tempInKelvin) => {
 };
 
 export const formatTemperature = (tempInKelvin) => {
-  return `${formatTemperatureWithoutUnits(tempInKelvin)}°C`;
+  return `${formatTemperatureWithDegreeSymbol(tempInKelvin)}C`;
+};
+
+export const formatTemperatureWithDegreeSymbol = (tempInKelvin) => {
+  return `${formatTemperatureWithoutUnits(tempInKelvin)}°`;
 };
 
 export const formatTemperatureWithoutUnits = (tempInKelvin) => {
