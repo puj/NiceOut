@@ -5,6 +5,7 @@ import { ScrollView, Image } from 'react-native';
 import { weather } from '../reducers/weather';
 import raindropImage from '../assets/raindrop.png';
 import windImage from '../assets/wind.png';
+import cloudImage from '../assets/clouds.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { Meter } from '../components/Meter';
 
@@ -37,12 +38,17 @@ export const HourlyDetailsView = () => {
           <Meter
             fillRatio={focusedForcast.humidity / 100.0}
             icon={raindropImage}
-            fillColor={'#4eb4e5'}
+            fillColor={'#424dee'}
           ></Meter>
           <Meter
             fillRatio={focusedForcast.wind_speed / 10.0}
             icon={windImage}
-            fillColor={'#595959'}
+            fillColor={'#a5d4ff'}
+          ></Meter>
+          <Meter
+            fillRatio={focusedForcast.clouds / 100.0}
+            icon={cloudImage}
+            fillColor={'#929292'}
           ></Meter>
         </FocusedForecastContainer>
       )}
