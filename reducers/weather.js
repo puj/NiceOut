@@ -10,7 +10,7 @@ import {
 const initialState = {
   weatherData: null,
   lastFetched: 0,
-  focusedForcast: null,
+  focusedForecast: null,
 };
 
 export const weather = createSlice({
@@ -28,8 +28,8 @@ export const weather = createSlice({
       return state;
     },
     setFocusedForecast: (state, action) => {
-      const { focusedForcast } = action.payload;
-      state.focusedForcast = focusedForcast;
+      const { focusedForecast } = action.payload;
+      state.focusedForecast = focusedForecast;
       return state;
     },
   },

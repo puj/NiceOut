@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { HourlyForecast } from '../components/HourlyForecast';
 import styled from 'styled-components/native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { weather } from '../reducers/weather';
 
 const HourlyForecastContainer = styled.ScrollView`
@@ -11,6 +11,7 @@ const HourlyForecastContainer = styled.ScrollView`
 
 export const HourlyForecastHorizontalScrollView = ({ forecasts }) => {
   const dispatch = useDispatch();
+  const focusedForecast = useSelector((store) => store.weather.focusedForecast);
   const [chunkWidth, setChunkWidth] = useState(0);
   const [chunkHeight, setChunkHeight] = useState(0);
   const hourlyLow = Math.min(...forecasts.map((forecast) => forecast.temp));
@@ -39,9 +40,9 @@ export const HourlyForecastHorizontalScrollView = ({ forecasts }) => {
       }}
       onLayout={(event) => measureChunk(event)}
       scrollEventThrottle={40}
-      onScroll={() =>
-        dispatch(weather.actions.setFocusedForecast({ focusedForcast: null }))
-      }
+      // onScrollEndDrag={() =>
+      //   dispatch(weather.actions.setFocusedForecast({ focusedForecast: null }))
+      // }
     >
       {forecasts.map((forecast, index) => {
         return (
@@ -54,6 +55,7 @@ export const HourlyForecastHorizontalScrollView = ({ forecasts }) => {
             high={hourlyHigh}
             chunkWidth={chunkWidth}
             chunkHeight={chunkHeight}
+            highlighted={focusedForecast && forecast.dt === focusedForecast.dt}
           ></HourlyForecast>
         );
       })}

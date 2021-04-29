@@ -18,6 +18,9 @@ const HourlyForecastContainer = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   /* width: ${(props) => `${props.chunkWidth}px`}; */
+  background-color: ${(props) =>
+    props.highlighted ? '#838383' : 'transparent'};
+  border-radius: 4px;
   height: 100%;
 `;
 
@@ -48,6 +51,7 @@ export const HourlyForecast = ({
   high,
   chunkWidth,
   chunkHeight,
+  highlighted,
 }) => {
   const dispatch = useDispatch();
 
@@ -66,9 +70,10 @@ export const HourlyForecast = ({
   return (
     <HourlyForecastContainer
       chunkWidth={chunkWidth}
+      highlighted={highlighted}
       onPress={() =>
         dispatch(
-          weather.actions.setFocusedForecast({ focusedForcast: forecast })
+          weather.actions.setFocusedForecast({ focusedForecast: forecast })
         )
       }
     >

@@ -2,13 +2,11 @@ import React from 'react';
 import styled from 'styled-components/native';
 
 const MeterContainer = styled.View`
-  flex: 1;
-  flex-direction: column;
-  align-items: center;
-  height: 40px;
-  width: 80px;
   flex-direction: row;
   align-items: center;
+  height: 10px;
+  width: 50%;
+  margin: 2px;
 `;
 
 const MeterBackground = styled.View`
@@ -19,6 +17,7 @@ const MeterBackground = styled.View`
   background-color: #aaa;
   margin-left: 6px;
 `;
+
 const MeterFill = styled.View`
   width: ${(props) => `${props.fillRatio * 100}%`};
   height: 100%;

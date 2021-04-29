@@ -20,14 +20,21 @@ const HourlyForecastContainer = styled.View`
   border-right-width: 0;
 `;
 const FocusedForecastContainer = styled.View`
+  padding-top: 6px;
   flex: 1;
+  height: 50%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   width: 100%;
+  max-width: 100%;
+  flex-wrap: wrap;
 `;
 
 export const HourlyDetailsView = () => {
   const dispatch = useDispatch();
   const weatherData = useSelector((store) => store.weather.weatherData);
-  const focusedForcast = useSelector((store) => store.weather.focusedForcast);
+  const focusedForcast = useSelector((store) => store.weather.focusedForecast);
   const hourlyForecasts = weatherData.hourly;
 
   return (

@@ -14,9 +14,16 @@ import { OriginalSurfer_400Regular } from '@expo-google-fonts/original-surfer';
 import { RobotoCondensed_700Bold } from '@expo-google-fonts/roboto-condensed';
 import AppLoading from 'expo-app-loading';
 import { CurrentWeatherHeader } from './components/CurrentWeatherHeader';
+import { getDefaultMiddleware } from '@reduxjs/toolkit';
 
 const reducer = combineReducers({ weather: weather.reducer });
-const store = configureStore({ reducer });
+const store = configureStore({
+  reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+});
 
 const Stack = createStackNavigator();
 
