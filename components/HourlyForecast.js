@@ -10,7 +10,7 @@ import {
 
 import Svg, { Polygon, Line } from 'react-native-svg';
 import { CustomTextComponent } from './CustomTextComponent';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const HourlyForecastContainer = styled.TouchableOpacity`
   flex: 1;
@@ -43,78 +43,97 @@ const Graph = styled.View`
   height: 100%;
 `;
 
-export const HourlyForecast = ({
-  prev,
-  next,
-  forecast,
-  low,
-  high,
-  chunkWidth,
-  chunkHeight,
-  highlighted,
-}) => {
-  const dispatch = useDispatch();
+export const HourlyForecast = React.memo(
+  ({
+    prev,
+    next,
+    forecast,
+    low,
+    high,
+    chunkWidth,
+    chunkHeight,
+    highlighted,
+  }) => {
+    const dispatch = useDispatch();
 
-  const prevTemp = forecast.temp;
-  const nextTemp = next ? next.temp : forecast.temp;
+    const prevTemp = forecast.temp;
+    const nextTemp = next ? next.temp : forecast.temp;
 
-  const normalizedFrom = (prevTemp - low) / (high - low);
-  const normalizedTo = (nextTemp - low) / (high - low);
+    const normalizedFrom = (prevTemp - low) / (high - low);
+    const normalizedTo = (nextTemp - low) / (high - low);
 
-  const graphPadding = chunkHeight * 0.15;
-  const y1 =
-    chunkHeight - graphPadding - (chunkHeight - graphPadding) * normalizedFrom;
-  const y2 =
-    chunkHeight - graphPadding - (chunkHeight - graphPadding) * normalizedTo;
+    const graphPadding = chunkHeight * 0.15;
+    const y1 =
+      chunkHeight -
+      graphPadding -
+      (chunkHeight - graphPadding) * normalizedFrom;
+    const y2 =
+      chunkHeight - graphPadding - (chunkHeight - graphPadding) * normalizedTo;
 
-  return (
-    <HourlyForecastContainer
-      chunkWidth={chunkWidth}
-      highlighted={highlighted}
-      onPress={() =>
-        dispatch(
-          weather.actions.setFocusedForecast({ focusedForecast: forecast })
-        )
-      }
-    >
-      <VerticalAlignCell>
-        <Temperature>
-          {formatTemperatureWithDegreeSymbol(forecast.temp)}
-        </Temperature>
-      </VerticalAlignCell>
-      <VerticalAlignCell>
-        <Graph chunkWidth={chunkWidth}>
-          <Svg
-            preserveAspectRatio="none"
-            width="100%"
-            height="100%"
-            viewBox={`0 0 ${chunkWidth} ${chunkHeight}`}
-          >
-            <Line
-              x1="0"
-              y1={`${y1}`}
-              x2={`${chunkWidth}`}
-              y2={`${y2}`}
-              stroke="#ccc259"
-              strokeWidth="1"
-            />
-            <Polygon
-              points={`
+    return (
+      <HourlyForecastContainer
+        chunkWidth={chunkWidth}
+        highlighted={highlighted}
+        onPress={() =>
+          dispatch(
+            weather.actions.setFocusedForecast({ focusedForecast: forecast })
+          )
+        }
+      >
+        <VerticalAlignCell>
+          <Temperature>
+            {formatTemperatureWithDegreeSymbol(forecast.temp)}
+          </Temperature>
+        </VerticalAlignCell>
+        <VerticalAlignCell>
+          <Graph chunkWidth={chunkWidth}>
+            <Svg
+              preserveAspectRatio="none"
+              width="100%"
+              height="100%"
+              viewBox={`0 0 ${chunkWidth} ${chunkHeight}`}
+            >
+              <Line
+                x1="0"
+                y1={`${y1}`}
+                x2={`${chunkWidth}`}
+                y2={`${y2}`}
+                stroke="#ccc259"
+                strokeWidth="1"
+              />
+              <Polygon
+                points={`
                 ${0},${chunkHeight}
                 ${chunkWidth},${chunkHeight}
                 ${chunkWidth}, ${y2} 
               0 ${y1} 
             `}
-              fill={`hsl(${
-                180 - parseInt(180 * calculateNicenessFactor(forecast))
-              },100%,80%)`}
-            />
-          </Svg>
-        </Graph>
-      </VerticalAlignCell>
-      <VerticalAlignCell>
-        <HourName>{moment(forecast.dt * 1000).format('HH')}</HourName>
-      </VerticalAlignCell>
-    </HourlyForecastContainer>
-  );
-};
+                fill={`hsl(${
+                  180 - parseInt(180 * calculateNicenessFactor(forecast))
+                },100%,80%)`}
+              />
+            </Svg>
+          </Graph>
+        </VerticalAlignCell>
+        <VerticalAlignCell>
+          <HourName>{moment(forecast.dt * 1000).format('HH')}</HourName>
+        </VerticalAlignCell>
+      </HourlyForecastContainer>
+    );
+  },
+  (prevProps, nextProps) => {
+    if (prevProps.forecast.dt != nextProps.forecast.dt) {
+      return false;
+    }
+    if (prevProps.chunkHeight != nextProps.chunkHeight) {
+      return false;
+    }
+    if (prevProps.chunkWidth != nextProps.chunkHeight) {
+      return false;
+    }
+    if (prevProps.highlighted != nextProps.highlighted) {
+      return false;
+    }
+    return true;
+  }
+);

@@ -4,13 +4,14 @@ import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { weather } from '../reducers/weather';
 
-const HourlyForecastContainer = styled.ScrollView`
+const HourlyForecastContainer = styled.FlatList`
   width: 100%;
   height: 50%;
 `;
 
 export const HourlyForecastHorizontalScrollView = ({ forecasts }) => {
   const dispatch = useDispatch();
+
   const focusedForecast = useSelector((store) => store.weather.focusedForecast);
   const [chunkWidth, setChunkWidth] = useState(0);
   const [chunkHeight, setChunkHeight] = useState(0);
@@ -26,39 +27,36 @@ export const HourlyForecastHorizontalScrollView = ({ forecasts }) => {
     const newChunkHeight = height;
     const newChunkWidth = width / 10;
 
-    console.log(newChunkWidth);
     setChunkWidth(newChunkWidth);
     setChunkHeight(newChunkHeight);
   };
 
+  const renderItem = ({ item, index, separators }) => {
+    const forecast = item;
+    return (
+      <HourlyForecast
+        key={forecast.dt}
+        prev={index > 0 ? forecasts[index - 1] : null}
+        forecast={forecast}
+        next={forecasts[index + 1]}
+        low={hourlyLow}
+        high={hourlyHigh}
+        chunkWidth={chunkWidth}
+        chunkHeight={chunkHeight}
+        highlighted={focusedForecast && focusedForecast.dt === forecast.dt}
+      ></HourlyForecast>
+    );
+  };
+
   return (
     <HourlyForecastContainer
+      removeClippedSubviews={true}
+      data={forecasts}
+      renderItem={renderItem}
+      keyExtractor={(forecast) => String(forecast.dt)}
       horizontal={true}
-      contentContainerStyle={{
-        flexDirection: 'row',
-        alignItems: 'center',
-      }}
       onLayout={(event) => measureChunk(event)}
       scrollEventThrottle={40}
-      // onScrollEndDrag={() =>
-      //   dispatch(weather.actions.setFocusedForecast({ focusedForecast: null }))
-      // }
-    >
-      {forecasts.map((forecast, index) => {
-        return (
-          <HourlyForecast
-            key={forecast.dt}
-            prev={index > 0 ? forecasts[index - 1] : null}
-            forecast={forecast}
-            next={forecasts[index + 1]}
-            low={hourlyLow}
-            high={hourlyHigh}
-            chunkWidth={chunkWidth}
-            chunkHeight={chunkHeight}
-            highlighted={focusedForecast && forecast.dt === focusedForecast.dt}
-          ></HourlyForecast>
-        );
-      })}
-    </HourlyForecastContainer>
+    ></HourlyForecastContainer>
   );
 };
