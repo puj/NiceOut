@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import moment from 'moment';
+import { weather } from '../reducers/weather';
 import {
   calculateNicenessFactor,
   formatTemperatureWithDegreeSymbol,
@@ -9,8 +10,9 @@ import {
 
 import Svg, { Polygon, Line } from 'react-native-svg';
 import { CustomTextComponent } from './CustomTextComponent';
+import { useDispatch } from 'react-redux';
 
-const HourlyForecastContainer = styled.View`
+const HourlyForecastContainer = styled.TouchableOpacity`
   flex: 1;
   flex-direction: column;
   align-items: center;
@@ -47,6 +49,8 @@ export const HourlyForecast = ({
   chunkWidth,
   chunkHeight,
 }) => {
+  const dispatch = useDispatch();
+
   const prevTemp = forecast.temp;
   const nextTemp = next ? next.temp : forecast.temp;
 
@@ -60,7 +64,14 @@ export const HourlyForecast = ({
     chunkHeight - graphPadding - (chunkHeight - graphPadding) * normalizedTo;
 
   return (
-    <HourlyForecastContainer chunkWidth={chunkWidth}>
+    <HourlyForecastContainer
+      chunkWidth={chunkWidth}
+      onPress={() =>
+        dispatch(
+          weather.actions.setFocusedForecast({ focusedForcast: forecast })
+        )
+      }
+    >
       <VerticalAlignCell>
         <Temperature>
           {formatTemperatureWithDegreeSymbol(forecast.temp)}

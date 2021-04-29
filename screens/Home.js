@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { LastFetched } from '../components/LastFetched';
 import { CurrentWeatherHeader } from '../components/CurrentWeatherHeader';
 import { DailyForecast } from '../components/DailyForecast';
-import { loadWeatherData, weather } from '../reducers/weather';
+import { HourlyDetailsView } from '../components/HourlyDetailsView';
+import { loadWeatherData } from '../reducers/weather';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Constants from 'expo-constants';
 
-import { ScrollView, RefreshControl, StyleSheet, View } from 'react-native';
+import { RefreshControl, StyleSheet, Text } from 'react-native';
 
 import styled from 'styled-components/native';
-import { HourlyForecastHorizontalScrollView } from '../components/HourlyForecastHorizontalScrollView';
 
 const MainContainer = styled.SafeAreaView`
   flex: 1;
@@ -70,9 +69,6 @@ export const Home = ({ navigation }) => {
   }
 
   const dailyForecasts = weatherData.daily;
-  const hourlyForecasts = weatherData.hourly;
-  // const hourlyForecasts = weatherData.hourly.slice(0, 12);
-
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -99,7 +95,7 @@ export const Home = ({ navigation }) => {
         }
       >
         <HomeContainer>
-          <HourlyForecastHorizontalScrollView forecasts={hourlyForecasts} />
+          <HourlyDetailsView></HourlyDetailsView>
           <DailyForecastContainer>
             {dailyForecasts.slice(1).map((dailyForecast) => {
               return (
