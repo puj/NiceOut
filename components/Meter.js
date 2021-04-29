@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 const MeterContainer = styled.View`
   flex-direction: row;
   align-items: center;
+  flex: 1;
   height: 10px;
   width: 50%;
   margin: 2px;

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Meter } from '../components/Meter';
 
 const HourlyForecastContainer = styled.View`
-  flex: 2.5;
+  flex: 3;
   flex-direction: column;
   align-items: center;
   padding: 12px;
@@ -21,8 +21,8 @@ const HourlyForecastContainer = styled.View`
 `;
 const FocusedForecastContainer = styled.View`
   padding-top: 6px;
-  flex: 1;
   height: 50%;
+  flex: 1;
   flex-direction: row;
   align-items: center;
   justify-content: center;
