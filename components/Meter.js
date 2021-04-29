@@ -15,8 +15,16 @@ const MeterBackground = styled.View`
   width: 100%;
   height: 8px;
   border-radius: 4px;
-  background-color: #aaa;
+  background-color: #ddd;
   margin-left: 6px;
+  /* box-shadow: 2px 1px 1px #aaa; */
+  /* border-width: 1px; */
+  border-color: #ddd;
+  border-bottom-width: 0;
+  shadow-color: #aaa;
+  shadow-offset: 1px 2px;
+  shadow-radius: 2px;
+  elevation: 3;
 `;
 
 const MeterFill = styled.View`

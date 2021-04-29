@@ -53,7 +53,7 @@ export const HourlyDetailsView = () => {
             fillColor={'#a5d4ff'}
           ></Meter>
           <Meter
-            fillRatio={focusedForcast.clouds / 100.0}
+            fillRatio={(5 + Math.max(focusedForcast.clouds - 5, 0)) / 100.0}
             icon={cloudImage}
             fillColor={'#929292'}
           ></Meter>

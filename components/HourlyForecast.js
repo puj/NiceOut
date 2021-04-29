@@ -11,6 +11,7 @@ import {
 import Svg, { Polygon, Line } from 'react-native-svg';
 import { CustomTextComponent } from './CustomTextComponent';
 import { useDispatch, useSelector } from 'react-redux';
+import { Text } from 'react-native';
 
 const HourlyForecastContainer = styled.TouchableOpacity`
   flex: 1;
@@ -31,8 +32,8 @@ const VerticalAlignCell = styled.View`
   justify-content: center;
 `;
 
-const HourName = styled(CustomTextComponent)`
-  color: #afafaf;
+const TimeLabel = styled(CustomTextComponent)`
+  color: ${(props) => (props.isDay ? '#3f3f3f' : '#afafaf')};
   font-size: 16px;
 `;
 const Temperature = styled(CustomTextComponent)`
@@ -42,6 +43,13 @@ const Graph = styled.View`
   width: ${(props) => `${props.chunkWidth}px`};
   height: 100%;
 `;
+
+const isDayLabel = (hour) => {
+  if (hour == 23 || hour == 0) {
+    return true;
+  }
+  return false;
+};
 
 export const HourlyForecast = React.memo(
   ({
@@ -55,6 +63,8 @@ export const HourlyForecast = React.memo(
     highlighted,
   }) => {
     const dispatch = useDispatch();
+    const hour = moment(forecast.dt * 1000).format('HH');
+    const day = moment(forecast.dt * 1000).format('ddd');
 
     const prevTemp = forecast.temp;
     const nextTemp = next ? next.temp : forecast.temp;
@@ -109,14 +119,16 @@ export const HourlyForecast = React.memo(
               0 ${y1} 
             `}
                 fill={`hsl(${
-                  180 - parseInt(180 * calculateNicenessFactor(forecast))
+                  205 - parseInt(165 * calculateNicenessFactor(forecast))
                 },100%,80%)`}
               />
             </Svg>
           </Graph>
         </VerticalAlignCell>
         <VerticalAlignCell>
-          <HourName>{moment(forecast.dt * 1000).format('HH')}</HourName>
+          <TimeLabel isDay={isDayLabel(hour)}>
+            {isDayLabel(hour) ? day : hour}
+          </TimeLabel>
         </VerticalAlignCell>
       </HourlyForecastContainer>
     );
