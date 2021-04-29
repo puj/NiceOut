@@ -30,8 +30,8 @@ export const getCloudiness = (weatherData) => {
 
 // Calculates  a [0,1] to indicate how pleasant the temp could be
 export const calculateTempScore = (tempInCelsius) => {
-  const lowerBound = 3;
-  const upperBound = 13;
+  const lowerBound = 4;
+  const upperBound = 16;
 
   let workingTemp = tempInCelsius;
   workingTemp = Math.max(workingTemp, lowerBound);
@@ -43,8 +43,8 @@ export const calculateTempScore = (tempInCelsius) => {
 // Calculates  a [0,1] to indicate how pleasant the hour of the day could be
 export const calculateHourOfDayScore = (hour) => {
   const minScore = 0.1;
-  const minHour = 5;
-  const maxHour = 19;
+  const minHour = 6;
+  const maxHour = 17;
   const sweetSpotMinHour = 10;
   const sweetSpotMaxHour = 14;
   if (hour > maxHour) {
@@ -60,35 +60,57 @@ export const calculateHourOfDayScore = (hour) => {
   const hourRatio = (goodRange / 2 - hourOffsetFromMid) / (midHour - minHour);
 
   if (hour >= sweetSpotMinHour && hour <= sweetSpotMaxHour) {
-    const bonus = 0.5 * (1 - hourRatio);
+    const bonus = 0.1 * (1 - hourRatio);
     return hourRatio + bonus;
   }
 
   return Math.max(hourRatio, minScore);
 };
 
+export const calculateCloudPenalty = (baseScore, cloudiness) => {
+  if (cloudiness > 0.9) {
+    return -baseScore * 0.5;
+  }
+  if (cloudiness > 0.8) {
+    return -baseScore * 0.45;
+  }
+  if (cloudiness > 0.7) {
+    return -baseScore * 0.4;
+  }
+  if (cloudiness > 0.6) {
+    return -baseScore * 0.3;
+  }
+  if (cloudiness > 0.5) {
+    return -baseScore * 0.15;
+  }
+  if (cloudiness > 0.4) {
+    return -baseScore * 0.1;
+  }
+  if (cloudiness > 0.3) {
+    return -baseScore * 0.05;
+  }
+  if (cloudiness > 0.2) {
+    return baseScore * 0.1;
+  }
+  if (cloudiness > 0.1) {
+    return baseScore * 0.3;
+  }
+  if (cloudiness > 0.0) {
+    return baseScore * 0.5;
+  }
+  return 0;
+};
+
 export const calculateWeatherScore = (cloudiness, temp, hourOfDay) => {
   const hourScore = calculateHourOfDayScore(hourOfDay);
   const tempScore = calculateTempScore(kelvinToCelsius(temp));
-  const clearSkiedness = 1 - cloudiness;
   // const tempScoreWeightedClearness = Math.pow(
   //   tempScore,
   //   clearSkiedness * clearSkiedness
   // );
-  const baseScore = (hourScore + tempScore) / 2;
-  if (clearSkiedness < 0.5) {
-    // Can reduce to half of base
-    const halfBaseScore = baseScore / 2;
-    const cloudPenalty = cloudiness * halfBaseScore;
-    const weightedScore = baseScore - cloudPenalty;
-    return weightedScore;
-  } else {
-    // Can increase by half of base
-    const halfBaseScore = baseScore / 2;
-    const clearBonus = clearSkiedness * halfBaseScore;
-    const weightedScore = baseScore + clearBonus;
-    return weightedScore;
-  }
+  const baseScore = (0.4 * hourScore + 1.6 * tempScore) / 2;
+  const cloudPenalty = calculateCloudPenalty(baseScore, cloudiness);
+  return baseScore + cloudPenalty;
 };
 
 export const calculateNicenessFactor = (weatherData) => {

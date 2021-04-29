@@ -1,4 +1,5 @@
 import {
+  calculateCloudPenalty,
   calculateHourOfDayScore,
   calculateTempScore,
 } from './TemperatureUtils';
@@ -31,13 +32,11 @@ describe('Calculate temp scores', () => {
     expect(calculateTempScore(6)).toBeLessThanOrEqual(0.4);
     expect(calculateTempScore(6)).toBeGreaterThanOrEqual(0.2);
 
-    expect(calculateTempScore(10)).toBeLessThanOrEqual(0.6);
+    expect(calculateTempScore(10)).toBeLessThanOrEqual(0.7);
     expect(calculateTempScore(10)).toBeGreaterThanOrEqual(0.4);
   });
   test('Test good temps', () => {
-    expect(calculateTempScore(14)).toBeLessThanOrEqual(0.8);
-    expect(calculateTempScore(14)).toBeGreaterThanOrEqual(0.6);
-
+    expect(calculateTempScore(14)).toBeGreaterThanOrEqual(0.8);
     expect(calculateTempScore(17)).toBeGreaterThanOrEqual(0.8);
   });
 });
@@ -92,5 +91,20 @@ describe('Calculate hour scores', () => {
     expect(calculateHourOfDayScore(earlyAfternoon)).toBeGreaterThanOrEqual(
       lowestScore
     );
+  });
+});
+
+describe('Calculate cloudiness penalty', () => {
+  test('Should increase clear skies', () => {
+    expect(calculateCloudPenalty(0.5, 0)).toBeGreaterThanOrEqual(0.66);
+    expect(calculateCloudPenalty(0.5, 0)).toBeLessThanOrEqual(0.7);
+
+    expect(calculateCloudPenalty(0.2, 0)).toBeGreaterThanOrEqual(0.25);
+    expect(calculateCloudPenalty(0.2, 0)).toBeLessThanOrEqual(0.3);
+  });
+
+  test('Should increase clear skies', () => {
+    expect(calculateCloudPenalty(0.2, 100)).toBeGreaterThanOrEqual(0.0);
+    expect(calculateCloudPenalty(0.2, 100)).toBeLessThanOrEqual(0.1);
   });
 });

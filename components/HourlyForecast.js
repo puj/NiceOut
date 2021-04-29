@@ -3,7 +3,9 @@ import styled from 'styled-components/native';
 import moment from 'moment';
 import { weather } from '../reducers/weather';
 import {
+  calculateHourOfDayScore,
   calculateNicenessFactor,
+  calculateWeatherScore,
   formatTemperatureWithDegreeSymbol,
   formatTemperatureWithoutUnits,
 } from '../utils/TemperatureUtils';
@@ -119,7 +121,7 @@ export const HourlyForecast = React.memo(
               0 ${y1} 
             `}
                 fill={`hsl(${
-                  205 - parseInt(165 * calculateNicenessFactor(forecast))
+                  200 - parseInt(200 * calculateNicenessFactor(forecast))
                 },100%,80%)`}
               />
             </Svg>
