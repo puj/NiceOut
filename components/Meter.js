@@ -5,7 +5,7 @@ const MeterContainer = styled.View`
   flex-direction: row;
   align-items: center;
   flex: 1;
-  height: 10px;
+  height: 40%;
   width: 50%;
   margin: 2px;
 `;
