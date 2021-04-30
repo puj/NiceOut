@@ -5,7 +5,7 @@ const MeterContainer = styled.View`
   flex-direction: row;
   align-items: center;
   flex: 1;
-  height: 40%;
+  height: 50%;
   width: 50%;
   margin: 2px;
 `;
@@ -13,7 +13,7 @@ const MeterContainer = styled.View`
 const MeterBackground = styled.View`
   flex: 8;
   width: 100%;
-  height: 8px;
+  height: 100%;
   border-radius: 4px;
   background-color: #ddd;
   margin-left: 6px;

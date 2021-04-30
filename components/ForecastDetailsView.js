@@ -1,5 +1,4 @@
-
-import React  from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
 import raindropImage from '../assets/raindrop.png';
 import windImage from '../assets/wind.png';
@@ -18,29 +17,28 @@ const FocusedForecastContainer = styled.View`
   flex-wrap: wrap;
 `;
 
-export const ForecastDetailsView = ({forecast}) =>{
-  if(!forecast){
-    return <></>
+export const ForecastDetailsView = ({ forecast }) => {
+  if (!forecast) {
+    return <></>;
   }
-  
+
   return (
-        <FocusedForecastContainer>
-          <Meter
-            fillRatio={foreforecastidity / 100.0}
-            icon={raindropImage}
-            fillColor={'#424dee'}
-          ></Meter>
-          <Meter
-            fillRatio={foreforecastd_speed / 10.0}
-            icon={windImage}
-            fillColor={'#a5d4ff'}
-          ></Meter>
-          <Meter
-            fillRatio={(5 + Math.max(forecast.clouds - 5, 0)) / 100.0}
-            icon={cloudImage}
-            fillColor={'#929292'}
-          ></Meter>
-        </FocusedForecastContainer>
-      )
-  
-}
+    <FocusedForecastContainer>
+      <Meter
+        fillRatio={forecast.humidity / 100.0}
+        icon={raindropImage}
+        fillColor={'#424dee'}
+      ></Meter>
+      <Meter
+        fillRatio={forecast.wind_speed / 10.0}
+        icon={windImage}
+        fillColor={'#a5d4ff'}
+      ></Meter>
+      <Meter
+        fillRatio={(5 + Math.max(forecast.clouds - 5, 0)) / 100.0}
+        icon={cloudImage}
+        fillColor={'#929292'}
+      ></Meter>
+    </FocusedForecastContainer>
+  );
+};
