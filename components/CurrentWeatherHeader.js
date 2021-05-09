@@ -1,14 +1,23 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import styled from 'styled-components/native';
 import { CurrentWeather } from '../components/CurrentWeather';
 import { CustomTextComponent } from '../components/CustomTextComponent';
 import { HeaderHeightContext, useHeaderHeight } from '@react-navigation/stack';
 import Constants from 'expo-constants';
+import background from '../assets/background.jpg';
 
+const HeaderImage = styled.ImageBackground`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+`;
 const HeaderContainer = styled.View`
   position: relative;
   width: 100%;
-  top: ${(props) => `${Constants.statusBarHeight}px`};
+  top: ${(props) =>
+    `${Platform.OS == 'ios' ? 0 : Constants.statusBarHeight}px`};
   height: ${(props) => `${props.headerHeight || 120}px`};
 `;
 
@@ -40,6 +49,7 @@ export const CurrentWeatherHeader = ({ current }) => {
   const headerHeight = useHeaderHeight();
   return (
     <HeaderContainer headerHeight={headerHeight}>
+      <HeaderImage source={background}></HeaderImage>
       <HeaderTitleContainer>
         <HeaderTitle>Nice Out</HeaderTitle>
       </HeaderTitleContainer>

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components/native';
+import { Animated, Easing } from 'react-native';
 
 const MeterContainer = styled.View`
   flex-direction: row;
@@ -27,8 +28,9 @@ const MeterBackground = styled.View`
   elevation: 3;
 `;
 
-const MeterFill = styled.View`
-  width: ${(props) => `${props.fillRatio * 100}%`};
+const MeterFill = styled(Animated.View)`
+  /* width: ${(props) => `${props.fillRatio * 100}%`}; */
+  width: ${(props) => `${props.width}`};
   height: 100%;
   border-radius: 4px;
   background-color: ${(props) => `${props.fillColor}`};
@@ -42,11 +44,40 @@ const MeterIcon = styled.Image`
 `;
 
 export const Meter = ({ fillRatio, icon, fillColor }) => {
+  const [currentFillRatio, setCurrentFillRatio] = useState(0);
+  const animation = useRef(new Animated.Value(currentFillRatio)).current;
+  // const width = animation.current.interpolate({
+  //   inputRange: [0, 100],
+  //   outputRange: ['0%', '100%'],
+  //   extrapolate: 'clamp',
+  // });
+
+  useEffect(() => {
+    Animated.timing(animation, {
+      toValue: fillRatio,
+      duration: 400,
+    }).start();
+    // Animated.spring(animation, {
+    //   toValue: fillRatio,
+    // }).start();
+    setCurrentFillRatio(fillRatio);
+  }, [fillRatio]);
+
+  const width = animation.interpolate({
+    inputRange: [0, 1],
+    easing: Easing.bounce(),
+    outputRange: ['0%', '100%'],
+    useNativeDriver: false,
+  });
   return (
     <MeterContainer>
       <MeterIcon source={icon}></MeterIcon>
       <MeterBackground>
-        <MeterFill fillRatio={fillRatio} fillColor={fillColor}></MeterFill>
+        <MeterFill
+          style={[{ width }]}
+          fillRatio={fillRatio}
+          fillColor={fillColor}
+        ></MeterFill>
       </MeterBackground>
     </MeterContainer>
   );

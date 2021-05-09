@@ -16,7 +16,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Text } from 'react-native';
 
 const HourlyForecastContainer = styled.TouchableOpacity`
-  flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -81,6 +80,8 @@ export const HourlyForecast = React.memo(
       (chunkHeight - graphPadding) * normalizedFrom;
     const y2 =
       chunkHeight - graphPadding - (chunkHeight - graphPadding) * normalizedTo;
+
+    console.log('Rendering : ' + hour);
 
     return (
       <HourlyForecastContainer

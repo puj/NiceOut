@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Constants from 'expo-constants';
 
-import { RefreshControl, StyleSheet, Text } from 'react-native';
+import { Platform, RefreshControl, StyleSheet, Text } from 'react-native';
 
 import styled from 'styled-components/native';
 
@@ -42,7 +42,8 @@ const DailyForecastContainer = styled.View`
 `;
 
 const RelativeLayoutScrollView = styled.ScrollView`
-  top: ${(props) => `${Constants.statusBarHeight}px`};
+  top: ${(props) =>
+    `${Platform.OS == 'ios' ? 0 : Constants.statusBarHeight}px`};
 `;
 
 export const Home = ({ navigation }) => {
@@ -72,7 +73,7 @@ export const Home = ({ navigation }) => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      marginTop: Constants.statusBarHeight,
+      marginTop: Platform.OS == 'ios' ? 0 : Constants.statusBarHeight,
     },
     scrollView: {
       flex: 1,

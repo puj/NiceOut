@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HourlyForecast } from '../components/HourlyForecast';
 import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,8 +13,8 @@ export const HourlyForecastHorizontalScrollView = ({ forecasts }) => {
   const dispatch = useDispatch();
 
   const focusedForecast = useSelector((store) => store.weather.focusedForecast);
-  const [chunkWidth, setChunkWidth] = useState(0);
-  const [chunkHeight, setChunkHeight] = useState(0);
+  const [chunkWidth, setChunkWidth] = useState(40);
+  const [chunkHeight, setChunkHeight] = useState(40);
   const hourlyLow = Math.min(...forecasts.map((forecast) => forecast.temp));
   const hourlyHigh = Math.max(...forecasts.map((forecast) => forecast.temp));
 
@@ -25,11 +25,21 @@ export const HourlyForecastHorizontalScrollView = ({ forecasts }) => {
     const width = e.nativeEvent.layout.width;
     const height = e.nativeEvent.layout.height;
     const newChunkHeight = height;
-    const newChunkWidth = width / 10;
+    const newChunkWidth = width / 8;
 
     setChunkWidth(newChunkWidth);
     setChunkHeight(newChunkHeight);
+    // dispatch(
+    //   weather.actions.setFocusedForecast({ focusedForecast: forecasts[0] })
+    // );
   };
+
+  useEffect(() => {
+    // Hack to force FlatList to display correctly the first time after chunkWidth is set
+    // dispatch(
+    //   weather.actions.setFocusedForecast({ focusedForecast: forecasts[0] })
+    // );
+  }, [chunkWidth]);
 
   const renderItem = ({ item, index, separators }) => {
     const forecast = item;

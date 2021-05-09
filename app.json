@@ -11,9 +11,12 @@
   },
   "assetBundlePatterns": ["**/*"],
   "ios": {
-    "supportsTablet": true
+    "buildNumber": "1",
+    "supportsTablet": true,
+    "bundleIdentifier": "tv.marslife.niceout"
   },
   "android": {
+    "versionCode": 1,
     "package": "tv.marslife.niceout"
   },
   "icon": "./assets/icon.png"
