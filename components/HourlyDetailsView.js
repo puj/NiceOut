@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
 import { HourlyForecastHorizontalScrollView } from '../components/HourlyForecastHorizontalScrollView';
-import {ForecastDetailsView} from "../components/ForecastDetailsView"
-import { useDispatch, useSelector } from 'react-redux';
+import { ForecastDetailsView } from '../components/ForecastDetailsView';
+import { useSelector } from 'react-redux';
 
 const HourlyForecastContainer = styled.View`
   flex: 3;
@@ -16,9 +16,8 @@ const HourlyForecastContainer = styled.View`
 `;
 
 export const HourlyDetailsView = () => {
-  const dispatch = useDispatch();
-  
-  const weatherData = useSelector((store) => store.weather.weatherData); const focusedForecast = useSelector((store) => store.weather.focusedForecast);
+  const weatherData = useSelector((store) => store.weather.weatherData);
+  const focusedForecast = useSelector((store) => store.weather.focusedForecast);
   const hourlyForecasts = weatherData.hourly;
 
   return (

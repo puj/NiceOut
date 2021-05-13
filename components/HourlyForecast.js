@@ -140,6 +140,9 @@ export const HourlyForecast = React.memo(
     if (prevProps.forecast.dt != nextProps.forecast.dt) {
       return false;
     }
+    if (prevProps.forecast.temp != nextProps.forecast.temp) {
+      return false;
+    }
     if (prevProps.chunkHeight != nextProps.chunkHeight) {
       return false;
     }

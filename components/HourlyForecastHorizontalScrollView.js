@@ -10,8 +10,6 @@ const HourlyForecastContainer = styled.FlatList`
 `;
 
 export const HourlyForecastHorizontalScrollView = ({ forecasts }) => {
-  const dispatch = useDispatch();
-
   const focusedForecast = useSelector((store) => store.weather.focusedForecast);
   const [chunkWidth, setChunkWidth] = useState(40);
   const [chunkHeight, setChunkHeight] = useState(40);
@@ -60,10 +58,11 @@ export const HourlyForecastHorizontalScrollView = ({ forecasts }) => {
 
   return (
     <HourlyForecastContainer
+      key={forecasts[0].dt} // This was key to prevent the stale svg bug
       removeClippedSubviews={true}
       data={forecasts}
       renderItem={renderItem}
-      keyExtractor={(forecast) => String(forecast.dt)}
+      keyExtractor={(forecast) => `${forecast.dt}-${forecast.temp}`}
       horizontal={true}
       onLayout={(event) => measureChunk(event)}
       scrollEventThrottle={40}
