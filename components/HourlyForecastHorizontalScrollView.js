@@ -27,9 +27,6 @@ export const HourlyForecastHorizontalScrollView = ({ forecasts }) => {
 
     setChunkWidth(newChunkWidth);
     setChunkHeight(newChunkHeight);
-    // dispatch(
-    //   weather.actions.setFocusedForecast({ focusedForecast: forecasts[0] })
-    // );
   };
 
   useEffect(() => {

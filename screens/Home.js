@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CurrentWeatherHeader } from '../components/CurrentWeatherHeader';
-import { DailyForecast } from '../components/DailyForecast';
+import { WeekForecast } from '../components/WeekForecast';
 import { HourlyDetailsView } from '../components/HourlyDetailsView';
 import { loadWeatherData } from '../reducers/weather';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,19 +26,6 @@ const HomeContainer = styled.View`
   justify-content: flex-start;
   flex: 1;
   background-color: #d3d3d3;
-`;
-
-const DailyForecastContainer = styled.View`
-  flex: 8;
-  flex-direction: column;
-  align-items: center;
-  padding: 24px;
-  /* padding: 12px; */
-  /* margin: 12px; */
-  border: 1px solid #dfdfdf;
-  border-top-width: 0;
-  border-left-width: 0;
-  border-right-width: 0;
 `;
 
 const RelativeLayoutScrollView = styled.ScrollView`
@@ -97,16 +84,7 @@ export const Home = ({ navigation }) => {
       >
         <HomeContainer>
           <HourlyDetailsView></HourlyDetailsView>
-          <DailyForecastContainer>
-            {dailyForecasts.slice(1).map((dailyForecast) => {
-              return (
-                <DailyForecast
-                  key={dailyForecast.dt}
-                  forecast={dailyForecast}
-                ></DailyForecast>
-              );
-            })}
-          </DailyForecastContainer>
+          <WeekForecast dailyForecasts={dailyForecasts}></WeekForecast>
         </HomeContainer>
       </RelativeLayoutScrollView>
     </MainContainer>
